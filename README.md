@@ -7,8 +7,8 @@
 - Старотовые списки + возможность создавать свои
 
 ## Технологии
-React
-TypeScript
-Sass
-Tauri
-Rust
+- React
+- TypeScript
+- Sass
+- Tauri
+- Rust
