@@ -4,7 +4,6 @@ import {
     readBinaryFile,
     writeBinaryFile,
 } from "@tauri-apps/api/fs";
-import { appConfigDir } from "@tauri-apps/api/path";
 
 export const saveImageAndGetPath = async (
     filePath: string,
@@ -23,8 +22,7 @@ export const saveImageAndGetPath = async (
             dir: BaseDirectory.App,
         });
 
-        const appDirectory = await appConfigDir(); // Corrected: Use await
-        return `${appDirectory}${newImagePath}`;
+        return `{newImagePath}`;
     } catch (error) {
         console.error("Error saving image:", error);
         throw error;

@@ -1,5 +1,5 @@
 import { QueryResult } from "@tauri-apps/plugin-sql";
-import { db } from "./Database.ts";
+import { db } from "@utils/Database.ts";
 
 interface Rating {
     id: number;

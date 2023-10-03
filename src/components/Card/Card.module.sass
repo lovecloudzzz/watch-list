@@ -1,4 +1,4 @@
-@import 'src/styles/variables'
+@import '@styles/variables'
 
 .Card
   display: flex
@@ -9,6 +9,7 @@
   padding: 0
   overflow: hidden
   max-height: 32vh
+  height: 35vh
   min-width: 30vw
   width: 560px
   gap: 20px
@@ -18,14 +19,18 @@
     width: 400px
 
   &Wrapper
+    max-width: 50%
     box-sizing: border-box
     height: 100%
     align-self: center
-    object-fit: cover
-
+    overflow: hidden
+    object-fit: fill
     &Poster
-      max-height: 100%
       align-self: center
+      height: 100%
+      width: 100%
+      object-fit: fill
+
 
   &Info
     padding: 0

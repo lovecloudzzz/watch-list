@@ -1,5 +1,5 @@
 import { QueryResult } from "@tauri-apps/plugin-sql";
-import { db } from "./Database.ts";
+import { db } from "@utils/Database.ts";
 
 export interface Franchise {
     id: number;
@@ -10,6 +10,11 @@ export const GetFranchiseByName = (name: string): Promise<Franchise[]> => {
     const query = "SELECT * FROM Franchises WHERE name = $1";
     const bindValues = [name.toLowerCase()];
     return db.select<Franchise[]>(query, bindValues);
+};
+
+export const GetFranchises = (): Promise<Franchise[]> => {
+    const query = "SELECT * FROM Franchises ";
+    return db.select<Franchise[]>(query);
 };
 
 export const AddFranchise = (name: string): Promise<QueryResult> => {

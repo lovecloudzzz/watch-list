@@ -1,5 +1,4 @@
-// import { BaseDirectory, writeBinaryFile } from "@tauri-apps/api/fs";
-import { db } from "./Database.ts";
+import { db } from "@utils/Database.ts";
 import { QueryResult } from "@tauri-apps/plugin-sql";
 
 export interface List {
