@@ -1,0 +1,46 @@
+@import 'src/styles/variables'
+
+.Card
+  display: flex
+  border-radius: 10px
+  border: solid $blue 1px
+  flex-direction: row
+  font-family: $main_font
+  padding: 0
+  overflow: hidden
+  max-height: 32vh
+  min-width: 30vw
+  width: 560px
+  gap: 20px
+  box-sizing: border-box
+  min-height: 150px
+  @media screen and (max-width: 800px)
+    width: 400px
+
+  &Wrapper
+    box-sizing: border-box
+    height: 100%
+    align-self: center
+    object-fit: cover
+
+    &Poster
+      max-height: 100%
+      align-self: center
+
+  &Info
+    padding: 0
+    min-width: 15vw
+    display: flex
+    flex-direction: column
+    gap: 20px
+    list-style: none
+    align-items: start
+    justify-content: start
+    font-family: $secondary-font
+
+    &Name
+      word-break: break-word
+      @include responsive-font-size-h1
+
+    &Series
+      @include responsive-font-size-h2

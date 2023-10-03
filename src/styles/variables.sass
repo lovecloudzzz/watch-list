@@ -1,0 +1,31 @@
+$grey: #8B8C89
+$lightblue: #A3CEF1
+$teal: #6096BA
+$blue: #274C77
+$white: #E7ECEF
+$black: #0D0E11
+
+
+$main-font: "Montserrat", sans-serif
+$secondary-font: "Inter", sans-serif
+
+
+@mixin responsive-font-size-h1
+  font-size: 2em
+
+  @media screen and (max-width: 1050px)
+    font-size: 1.5em
+
+  @media screen and (max-width: 600px)
+    font-size: 1em
+
+
+
+@mixin responsive-font-size-h2
+  font-size: 1.5em
+
+  @media screen and (max-width: 1050px)
+    font-size: 1em
+
+  @media screen and (max-width: 600px)
+    font-size: 0.7em
