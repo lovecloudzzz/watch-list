@@ -2,8 +2,11 @@ import { QueryResult } from "@tauri-apps/plugin-sql";
 import { db } from "@utils/Database.ts";
 import { AddTags } from "@utils/TagsService.ts";
 import { AddFranchises } from "@utils/FranchiseService.ts";
-import { AddTitleToFranchise } from "@utils/TitleFranchiseService.ts";
-import { AddTagToTitle } from "@utils/TitleTagService.ts";
+import {
+    AddTitleToFranchise,
+    GetFranchisesByTitleId,
+} from "@utils/TitleFranchiseService.ts";
+import { AddTagToTitle, GetTagsByTitleId } from "@utils/TitleTagService.ts";
 import { saveImageAndGetPath } from "@utils/PostersService.ts";
 
 export interface Title {
@@ -17,10 +20,20 @@ export interface Title {
     type: string; // Added type
 }
 
-export const AddTitle = async (title: Title): Promise<number | null> => {
+export interface TitleInput {
+    name: string;
+    series: number;
+    duration: number;
+    imageFile: File;  // Change to File type for the image file
+    yearRelease: number;
+    tags: string[];
+    franchises: string[];
+    type: string; // Added type
+}
+export const AddTitle = async (title: TitleInput): Promise<number | null> => {
     try {
         // Save the image and get the new path
-        const newPosterPath = await saveImageAndGetPath(title.urlPoster, title.name);
+        const newPosterPath = await saveImageAndGetPath(title.imageFile, title.name);
 
         // Add tags
         const tagIds = await AddTags(title.tags, title.type);
@@ -85,44 +98,48 @@ export const GetPaginatedTitles = async (page: number): Promise<PaginatedTitle[]
     const offset = (page - 1) * itemsPerPage;
 
     const query = `
-        SELECT t.id as title_id, t.name, t.series, t.duration, t.urlPoster, t.yearRelease, t.type,
-               f.name AS franchise_name, tag.name AS tag_name
+        SELECT
+            t.id as title_id,
+            t.name,
+            t.series,
+            t.duration,
+            t.urlPoster,
+            t.yearRelease,
+            t.type
         FROM Titles t
-                 LEFT JOIN TitleFranchise tf ON t.id = tf.title_id
-                 LEFT JOIN Franchises f ON tf.franchise_id = f.id
-                 LEFT JOIN TitleTags tt ON t.id = tt.title_id
-                 LEFT JOIN Tags tag ON tt.tag_id = tag.id
         ORDER BY t.id
         LIMIT $1 OFFSET $2;
     `;
 
     const bindValues = [itemsPerPage, offset];
     const result: any[] = await db.select(query, bindValues);
+    console.log('Result from the database:', result);
 
     const paginatedTitles: PaginatedTitle[] = [];
 
     for (const row of result) {
-        const { title_id, name, series, duration, urlPoster, yearRelease, type, franchise_name, tag_name } = row;
+        const { title_id, name, series, duration, urlPoster, yearRelease, type } = row;
 
-        let existingTitle = paginatedTitles.find((title) => title.id === title_id);
+        const title: PaginatedTitle = {
+            id: title_id,
+            name,
+            series,
+            duration,
+            urlPoster,
+            yearRelease,
+            type,
+            tags: [],
+            franchises: [],
+        };
 
-        if (!existingTitle) {
-            existingTitle = {
-                id: title_id,
-                name,
-                series,
-                duration,
-                urlPoster,
-                yearRelease,
-                type,
-                tags: [],
-                franchises: [],
-            };
-            paginatedTitles.push(existingTitle);
-        }
 
-        if (franchise_name) existingTitle.franchises.push(franchise_name);
-        if (tag_name) existingTitle.tags.push(tag_name);
+        const franchises = await GetFranchisesByTitleId(title_id);
+        const tags = await GetTagsByTitleId(title_id);
+
+        title.franchises = franchises.map(franchise => franchise.name);
+        title.tags = tags.map(tag => tag.name);
+
+        paginatedTitles.push(title);
     }
 
     return paginatedTitles;

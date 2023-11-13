@@ -1,8 +1,11 @@
 export interface CardProps {
     name: string;
     series: number;
-    posterUrl: string;
-    seriesDuration: number;
-    releaseYear: number;
+    urlPoster: string;
+    duration: number;
+    yearRelease: number;
     tags: string[];
+    franchises: string[];
+    id: number;
+    type: string;
 }

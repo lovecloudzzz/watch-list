@@ -1,28 +1,21 @@
-import {
-    BaseDirectory,
-    createDir,
-    readBinaryFile,
-    writeBinaryFile,
-} from "@tauri-apps/api/fs";
+import { BaseDirectory, createDir, writeBinaryFile } from "@tauri-apps/api/fs";
 
 export const saveImageAndGetPath = async (
-    filePath: string,
+    imageFile: File,
     imageName: string,
 ): Promise<string> => {
     try {
-        // Read the local image file as a buffer
-        const imageBinary = await readBinaryFile(filePath);
+        const imageBinary = await imageFile.arrayBuffer(); // Convert File to binary buffer
+
         await createDir("posters", { dir: BaseDirectory.App, recursive: true });
 
-        // Define the new image path with the desired image name
         const newImagePath = `posters/${imageName.replace(/\s+/g, "")}.jpg`;
 
-        // Write the image buffer to the new path
         await writeBinaryFile(newImagePath, new Uint8Array(imageBinary), {
             dir: BaseDirectory.App,
         });
 
-        return `{newImagePath}`;
+        return newImagePath;
     } catch (error) {
         console.error("Error saving image:", error);
         throw error;

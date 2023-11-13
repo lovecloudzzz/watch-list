@@ -7,10 +7,10 @@ import { BaseDirectory, readBinaryFile } from "@tauri-apps/api/fs";
 export const Card: React.FC<CardProps> = ({
     name,
     series,
-    posterUrl,
+    urlPoster,
     tags,
-    releaseYear,
-    seriesDuration,
+    yearRelease,
+    duration,
 }) => {
     const formattedSeries = "Серий: " + series;
     const [imageSrc, setImageSrc] = useState<string>();
@@ -18,11 +18,10 @@ export const Card: React.FC<CardProps> = ({
     useEffect(() => {
         const fetchImage = async () => {
             try {
-                const contents = await readBinaryFile(posterUrl, {
+                const contents = await readBinaryFile(urlPoster, {
                     dir: BaseDirectory.AppConfig,
                 });
 
-                // Convert Uint8Array to a data URL
                 const blob = new Blob([contents], { type: "image/jpeg" });
                 const dataUrl = URL.createObjectURL(blob);
                 setImageSrc(dataUrl);
@@ -32,7 +31,7 @@ export const Card: React.FC<CardProps> = ({
         };
 
         fetchImage();
-    }, [posterUrl]);
+    }, [urlPoster]);
 
     return (
         <li className={styles.Card}>
@@ -47,8 +46,8 @@ export const Card: React.FC<CardProps> = ({
                 <li className={styles.CardInfoName}>{name}</li>
                 <li className={styles.CardInfoSeries}>{formattedSeries}</li>
                 <Tags tagNames={tags} />
-                <li className={styles.CardInfoSeries}>{releaseYear}</li>
-                <li className={styles.CardInfoSeries}>{seriesDuration}</li>
+                <li className={styles.CardInfoSeries}>{yearRelease}</li>
+                <li className={styles.CardInfoSeries}>{duration}</li>
             </ul>
         </li>
     );

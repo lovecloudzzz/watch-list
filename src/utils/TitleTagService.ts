@@ -2,12 +2,13 @@ import { QueryResult } from "@tauri-apps/plugin-sql";
 import { db } from "@utils/Database.ts";
 
 export interface TitleTag {
+    name: string;
     title_id: number;
     tag_id: number;
 }
 
 export const GetTagsByTitleId = (title_id: number): Promise<TitleTag[]> => {
-    const query = "SELECT * FROM TitleTags WHERE title_id = $1";
+    const query = "SELECT * FROM TitleTags LEFT JOIN main.Tags T on T.id = TitleTags.tag_id WHERE title_id = $1";
     const bindValues = [title_id];
     return db.select<TitleTag[]>(query, bindValues);
 };

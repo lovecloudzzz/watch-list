@@ -1,13 +1,25 @@
-@import "src/styles/variables"
+@import "@styles/variables"
 
 .NavbarItem
   font-family: $main-font
-  width: 50px
+  max-height: 25px
   a
     text-align: center
     text-decoration: none
-    color: $black
-  a:hover
-    color: $blue
-  a:active
-    color: $grey
+    border-radius: 5px
+    @include responsive-font-size-h3
+
+.Active
+  background: $blue
+  color: $white
+  padding: 9px 10px 13px 10px
+
+.NoActive
+  background: $lightblue
+  color: $black
+  box-shadow: $blue 0 3px 1px 1px
+  padding: 10px
+  &:active
+    top: 3px
+    box-shadow: none
+    padding: 9px 10px 13px 9px

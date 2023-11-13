@@ -10,11 +10,14 @@ export const CardList: React.FC<CardListProps> = ({ cards }) => {
                 <Card
                     name={card.name}
                     series={card.series}
-                    posterUrl={card.posterUrl}
+                    urlPoster={card.urlPoster}
                     tags={card.tags}
                     key={index}
-                    seriesDuration={card.seriesDuration}
-                    releaseYear={card.releaseYear}
+                    duration={card.duration}
+                    yearRelease={card.yearRelease}
+                    franchises={card.franchises}
+                    id={card.id}
+                    type={card.type}
                 />
             ))}
         </ul>

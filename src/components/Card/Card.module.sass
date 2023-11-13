@@ -8,23 +8,20 @@
   font-family: $main_font
   padding: 0
   overflow: hidden
-  max-height: 32vh
-  height: 35vh
-  min-width: 30vw
-  width: 560px
+  height: 40vh
+  width: 30vw
   gap: 20px
   box-sizing: border-box
-  min-height: 150px
   @media screen and (max-width: 800px)
     width: 400px
 
   &Wrapper
     max-width: 50%
+    min-width: 50%
     box-sizing: border-box
     height: 100%
     align-self: center
     overflow: hidden
-    object-fit: fill
     &Poster
       align-self: center
       height: 100%
@@ -45,7 +42,7 @@
 
     &Name
       word-break: break-word
-      @include responsive-font-size-h1
+      @include responsive-font-size-h2
 
     &Series
-      @include responsive-font-size-h2
+      @include responsive-font-size-h3
